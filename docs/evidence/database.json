@@ -1,0 +1,79 @@
+[
+  {
+    "id": 1,
+    "name": "Administrador SilentVoice",
+    "email": "admin@silentvoice.test",
+    "interest_type": null,
+    "is_admin": 1
+  },
+  {
+    "id": 2,
+    "name": "Ana Silva",
+    "email": "interessado1@example.test",
+    "interest_type": "usuario",
+    "is_admin": 0
+  },
+  {
+    "id": 3,
+    "name": "Bruno Costa",
+    "email": "interessado2@example.test",
+    "interest_type": "investidor",
+    "is_admin": 0
+  },
+  {
+    "id": 4,
+    "name": "Carla Santos",
+    "email": "interessado3@example.test",
+    "interest_type": "outro",
+    "is_admin": 0
+  },
+  {
+    "id": 5,
+    "name": "Diego Lima",
+    "email": "interessado4@example.test",
+    "interest_type": "usuario",
+    "is_admin": 0
+  },
+  {
+    "id": 6,
+    "name": "Elisa Rocha",
+    "email": "interessado5@example.test",
+    "interest_type": "investidor",
+    "is_admin": 0
+  },
+  {
+    "id": 7,
+    "name": "Felipe Alves",
+    "email": "interessado6@example.test",
+    "interest_type": "outro",
+    "is_admin": 0
+  },
+  {
+    "id": 8,
+    "name": "Gabriela Melo",
+    "email": "interessado7@example.test",
+    "interest_type": "usuario",
+    "is_admin": 0
+  },
+  {
+    "id": 9,
+    "name": "Henrique Dias",
+    "email": "interessado8@example.test",
+    "interest_type": "investidor",
+    "is_admin": 0
+  },
+  {
+    "id": 10,
+    "name": "Isabela Souza",
+    "email": "interessado9@example.test",
+    "interest_type": "outro",
+    "is_admin": 0
+  },
+  {
+    "id": 11,
+    "name": "João Pereira",
+    "email": "interessado10@example.test",
+    "interest_type": "usuario",
+    "is_admin": 0
+  }
+]

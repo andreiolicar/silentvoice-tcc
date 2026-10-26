@@ -47,6 +47,18 @@
             @endif
         </div>
 
+        @unless($user->is_admin)
+        <div>
+            <x-input-label for="interest_type" value="Tipo de interesse" />
+            <select id="interest_type" name="interest_type" class="form-select mt-1" required>
+                @foreach(\App\Models\User::INTEREST_TYPES as $value => $label)
+                    <option value="{{ $value }}" @selected(old('interest_type', $user->interest_type) === $value)>{{ $label }}</option>
+                @endforeach
+            </select>
+            <x-input-error :messages="$errors->get('interest_type')" class="mt-2" />
+        </div>
+        @endunless
+
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 

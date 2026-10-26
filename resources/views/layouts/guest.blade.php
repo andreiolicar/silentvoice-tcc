@@ -1,30 +1,5 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-
-        <title>{{ config('app.name', 'Laravel') }}</title>
-
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-            <div>
-                <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-                </a>
-            </div>
-
-            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-                {{ $slot }}
-            </div>
-        </div>
-    </body>
-</html>
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="csrf-token" content="{{ csrf_token() }}"><title>SilentVoice — Acesse sua conta</title><link rel="icon" type="image/svg+xml" href="{{ asset('images/symbol.svg') }}">@vite(['resources/css/app.css', 'resources/js/app.js'])</head>
+<body class="font-sans antialiased text-slate-900"><div class="grid min-h-screen lg:grid-cols-2">
+<aside class="relative hidden overflow-hidden bg-brand-950 p-12 text-white lg:flex lg:flex-col"><a href="{{ route('home') }}" class="inline-flex w-fit rounded-xl bg-white p-3" aria-label="SilentVoice — início"><x-application-logo /></a><div class="relative z-10 my-auto max-w-md py-16"><p class="eyebrow text-brand-200">Sua intenção ganha voz</p><h1 class="mt-6 text-5xl font-medium leading-tight tracking-tight">Cada conexão abre uma nova possibilidade.</h1><p class="mt-6 text-base leading-relaxed text-brand-100">Faça parte de um projeto que une tecnologia e autonomia para ampliar as formas de se comunicar.</p><div class="mt-8 flex gap-2"><span class="rounded-full border border-white/20 px-3 py-1 text-xs">EMG</span><span class="rounded-full border border-white/20 px-3 py-1 text-xs">Visão computacional</span><span class="rounded-full border border-white/20 px-3 py-1 text-xs">IA de borda</span></div></div><p class="text-xs text-brand-200">SilentVoice · Comunicação assistiva</p><div aria-hidden="true" class="pointer-events-none absolute -bottom-40 -right-48 h-[500px] w-[500px] rounded-full border-[80px] border-brand-800/50"></div></aside>
+<main class="flex flex-col bg-white px-6 py-8 sm:px-12"><a href="{{ route('home') }}" class="text-sm font-medium text-slate-500 hover:text-brand-700">← Voltar ao início</a><div class="mx-auto my-auto w-full max-w-md py-10"><a href="{{ route('home') }}" class="mb-8 inline-block lg:hidden" aria-label="SilentVoice — início"><x-application-logo /></a>{{ $slot }}</div><p class="text-center text-xs text-slate-400">Sua intenção ganha voz. Mais autonomia para se comunicar.</p></main>
+</div></body></html>

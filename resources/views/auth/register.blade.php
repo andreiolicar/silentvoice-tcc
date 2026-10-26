@@ -1,52 +1,10 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
-
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
-        </div>
-
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
-    </form>
+<p class="eyebrow">Faça parte do SilentVoice</p><h1 class="mt-3 text-3xl font-semibold tracking-tight">Cadastre seu interesse</h1><p class="mb-7 mt-3 text-sm text-slate-500">Uma conta para se conectar à proposta do projeto.</p>
+<form method="POST" action="{{ route('register') }}" class="space-y-4">@csrf
+<div><x-input-label for="name" value="Nome completo" /><x-text-input id="name" class="mt-1.5 block w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" maxlength="255" /><x-input-error :messages="$errors->get('name')" class="mt-1" /></div>
+<div><x-input-label for="email" value="E-mail" /><x-text-input id="email" class="mt-1.5 block w-full" type="email" name="email" :value="old('email')" required autocomplete="username" maxlength="255" /><x-input-error :messages="$errors->get('email')" class="mt-1" /></div>
+<div><x-input-label for="interest_type" value="Tipo de interesse" /><select id="interest_type" name="interest_type" required class="form-select mt-1.5"><option value="">Selecione seu interesse</option>@foreach(\App\Models\User::INTEREST_TYPES as $value => $label)<option value="{{ $value }}" @selected(old('interest_type') === $value)>{{ $label }}</option>@endforeach</select><x-input-error :messages="$errors->get('interest_type')" class="mt-1" /></div>
+<div class="grid gap-4 sm:grid-cols-2"><div><x-input-label for="password" value="Senha" /><x-text-input id="password" class="mt-1.5 block w-full" type="password" name="password" required minlength="8" autocomplete="new-password" /><x-input-error :messages="$errors->get('password')" class="mt-1" /></div><div><x-input-label for="password_confirmation" value="Confirmar senha" /><x-text-input id="password_confirmation" class="mt-1.5 block w-full" type="password" name="password_confirmation" required autocomplete="new-password" /></div></div>
+<p class="text-xs text-slate-500">Use uma senha com pelo menos 8 caracteres.</p><button class="btn-primary w-full justify-center" type="submit">Criar minha conta <span aria-hidden="true">→</span></button>
+</form><p class="mt-6 text-center text-sm text-slate-500">Já tem uma conta? <a class="font-semibold text-brand-800 hover:underline" href="{{ route('login') }}">Entrar</a></p>
 </x-guest-layout>

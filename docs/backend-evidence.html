@@ -1,0 +1,256 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SilentVoice — Evidências reais do backend</title><style>*{box-sizing:border-box}html{scroll-padding-top:24px}body{margin:0;font:15px/1.6 system-ui,sans-serif;background:#f5f8f8;color:#112c31}.wrap{max-width:1100px;margin:auto;padding:40px 32px}header{background:#073f3b;color:white}header .wrap{padding-block:30px}h1{font-size:32px;letter-spacing:-1px;margin:4px 0}h2{font-size:30px;line-height:1.2;letter-spacing:-.7px;margin:8px 0 20px}h3{margin-top:28px}p{color:#53646a}header p{color:#d2efea}small{font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#087e72}section{background:white;border:1px solid #dce6e4;border-radius:20px;padding:30px;margin:28px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#102e32;color:#e0f2ef;border-radius:12px;padding:24px;font:13px/1.6 Consolas,monospace}code{font-family:Consolas,monospace}table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;border-bottom:1px solid #dde8e5;padding:10px 9px}th{color:#087e72;background:#edf9f7}nav a{color:#d2efea;margin-right:18px;font-size:13px}.stamp{font-size:12px;color:#a4ded5}</style></head><body><header><div class="wrap"><div class="stamp">LOCALHOST · LARAVEL BREEZE · 26/10/2026 09:21</div><h1>SilentVoice / Evidências do backend</h1><p>Relatório estático de comandos executados e consultas reais ao banco local.</p><nav><a href="#migrations">Migrations executadas no SQLite</a><a href="#seeders">Seeder e registros de demonstração</a><a href="#crud">CRUD executado com Eloquent</a><a href="#controller">Controller e rotas do CRUD</a><a href="#tests">Testes automatizados</a></nav></div></header><main class="wrap"><section id="migrations"><small>01 / Banco de dados</small><h2>Migrations executadas no SQLite</h2><p>Comando real: <code>php artisan migrate:status</code></p><pre>
+  Migration name ...................................................................................... Batch / Status  
+  0001_01_01_000000_create_users_table ....................................................................... [1] Ran  
+  0001_01_01_000001_create_cache_table ....................................................................... [1] Ran  
+  0001_01_01_000002_create_jobs_table ........................................................................ [1] Ran  
+  2026_10_26_000001_add_interest_fields_to_users_table ....................................................... [2] Ran  
+
+</pre><h3>Migration dos interessados</h3><pre>&lt;?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::table(&#x27;users&#x27;, function (Blueprint $table) {
+            $table-&gt;string(&#x27;interest_type&#x27;)-&gt;nullable();
+            $table-&gt;boolean(&#x27;is_admin&#x27;)-&gt;default(false);
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::table(&#x27;users&#x27;, function (Blueprint $table) {
+            $table-&gt;dropColumn([&#x27;interest_type&#x27;, &#x27;is_admin&#x27;]);
+        });
+    }
+};
+</pre></section><section id="seeders"><small>02 / Banco de dados</small><h2>Seeder e registros de demonstração</h2><p>Consulta real: <code>SELECT id, name, email, interest_type, is_admin FROM users</code></p><p><strong>11 contas: 10 interessados e 1 administrador.</strong> Sem senhas neste relatório.</p><table><thead><tr><th>ID</th><th>Nome</th><th>E-mail</th><th>Interesse</th><th>Admin</th></tr></thead><tbody><tr><td>1</td><td>Administrador SilentVoice</td><td>admin@silentvoice.test</td><td>None</td><td>1</td></tr><tr><td>2</td><td>Ana Silva</td><td>interessado1@example.test</td><td>usuario</td><td>0</td></tr><tr><td>3</td><td>Bruno Costa</td><td>interessado2@example.test</td><td>investidor</td><td>0</td></tr><tr><td>4</td><td>Carla Santos</td><td>interessado3@example.test</td><td>outro</td><td>0</td></tr><tr><td>5</td><td>Diego Lima</td><td>interessado4@example.test</td><td>usuario</td><td>0</td></tr><tr><td>6</td><td>Elisa Rocha</td><td>interessado5@example.test</td><td>investidor</td><td>0</td></tr><tr><td>7</td><td>Felipe Alves</td><td>interessado6@example.test</td><td>outro</td><td>0</td></tr><tr><td>8</td><td>Gabriela Melo</td><td>interessado7@example.test</td><td>usuario</td><td>0</td></tr><tr><td>9</td><td>Henrique Dias</td><td>interessado8@example.test</td><td>investidor</td><td>0</td></tr><tr><td>10</td><td>Isabela Souza</td><td>interessado9@example.test</td><td>outro</td><td>0</td></tr><tr><td>11</td><td>João Pereira</td><td>interessado10@example.test</td><td>usuario</td><td>0</td></tr></tbody></table><h3>Seeder idempotente</h3><pre>&lt;?php
+
+namespace Database\Seeders;
+
+use App\Models\User;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+
+class DatabaseSeeder extends Seeder
+{
+    public function run(): void
+    {
+        // Credenciais fictícias, destinadas exclusivamente à demonstração local.
+        $admin = User::firstOrNew([&#x27;email&#x27; =&gt; &#x27;admin@silentvoice.test&#x27;]);
+        $admin-&gt;fill([&#x27;name&#x27; =&gt; &#x27;Administrador SilentVoice&#x27;, &#x27;password&#x27; =&gt; Hash::make(&#x27;SilentVoice123!&#x27;), &#x27;interest_type&#x27; =&gt; null]);
+        $admin-&gt;is_admin = true;
+        $admin-&gt;save();
+
+        $names = [&#x27;Ana Silva&#x27;, &#x27;Bruno Costa&#x27;, &#x27;Carla Santos&#x27;, &#x27;Diego Lima&#x27;, &#x27;Elisa Rocha&#x27;,
+            &#x27;Felipe Alves&#x27;, &#x27;Gabriela Melo&#x27;, &#x27;Henrique Dias&#x27;, &#x27;Isabela Souza&#x27;, &#x27;João Pereira&#x27;];
+        $types = [&#x27;usuario&#x27;, &#x27;investidor&#x27;, &#x27;outro&#x27;];
+
+        foreach ($names as $index =&gt; $name) {
+            User::updateOrCreate(
+                [&#x27;email&#x27; =&gt; &#x27;interessado&#x27;.($index + 1).&#x27;@example.test&#x27;],
+                [&#x27;name&#x27; =&gt; $name, &#x27;interest_type&#x27; =&gt; $types[$index % 3], &#x27;password&#x27; =&gt; Hash::make(&#x27;SilentVoice123!&#x27;)],
+            );
+        }
+    }
+}
+</pre></section><section id="crud"><small>03 / Backend</small><h2>CRUD executado com Eloquent</h2><p>Saída real de <code>php docs/demo-crud.php</code>. Uma conta fictícia é criada, consultada, atualizada e excluída. As 11 contas iniciais são preservadas.</p><pre>CREATE — conta inserida
+{
+    &quot;id&quot;: 13,
+    &quot;name&quot;: &quot;Demonstração Backend&quot;,
+    &quot;email&quot;: &quot;demo.af3cb2f5-97a9-42dd-8c3b-e6085de09586@example.test&quot;,
+    &quot;interest_type&quot;: &quot;usuario&quot;
+}
+
+READ — conta consultada no banco
+{
+    &quot;id&quot;: 13,
+    &quot;name&quot;: &quot;Demonstração Backend&quot;,
+    &quot;interest_type&quot;: &quot;usuario&quot;
+}
+
+UPDATE — dados relidos após atualização
+{
+    &quot;id&quot;: 13,
+    &quot;name&quot;: &quot;Demonstração Backend Atualizada&quot;,
+    &quot;interest_type&quot;: &quot;investidor&quot;
+}
+
+DELETE — ausência confirmada no banco
+{
+    &quot;id&quot;: 13,
+    &quot;existe_no_banco&quot;: false
+}
+
+CONFERÊNCIA — contas originais preservadas
+{
+    &quot;antes&quot;: 11,
+    &quot;depois&quot;: 11
+}
+
+</pre></section><section id="controller"><small>04 / Backend</small><h2>Controller e rotas do CRUD</h2><p>Arquivos da aplicação. As rotas exigem os middlewares <code>auth</code> e <code>admin</code>.</p><pre>&lt;?php
+
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\InterestedAccountController;
+use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
+
+Route::view(&#x27;/&#x27;, &#x27;welcome&#x27;)-&gt;name(&#x27;home&#x27;);
+
+Route::middleware(&#x27;auth&#x27;)-&gt;group(function () {
+    Route::get(&#x27;/dashboard&#x27;, DashboardController::class)-&gt;name(&#x27;dashboard&#x27;);
+    Route::get(&#x27;/profile&#x27;, [ProfileController::class, &#x27;edit&#x27;])-&gt;name(&#x27;profile.edit&#x27;);
+    Route::patch(&#x27;/profile&#x27;, [ProfileController::class, &#x27;update&#x27;])-&gt;name(&#x27;profile.update&#x27;);
+    Route::delete(&#x27;/profile&#x27;, [ProfileController::class, &#x27;destroy&#x27;])-&gt;name(&#x27;profile.destroy&#x27;);
+
+    Route::middleware(&#x27;admin&#x27;)-&gt;prefix(&#x27;admin&#x27;)-&gt;name(&#x27;admin.&#x27;)-&gt;group(function () {
+        Route::resource(&#x27;interessados&#x27;, InterestedAccountController::class)-&gt;parameters([&#x27;interessados&#x27; =&gt; &#x27;interessado&#x27;]);
+    });
+});
+
+require __DIR__.&#x27;/auth.php&#x27;;
+
+Route::fallback(fn () =&gt; response()-&gt;view(&#x27;errors.404&#x27;, [], 404));
+</pre><pre>&lt;?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\InterestedAccountRequest;
+use App\Models\User;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
+
+class InterestedAccountController extends Controller
+{
+    public function index(): View
+    {
+        return view(&#x27;interessados.index&#x27;, [
+            &#x27;interessados&#x27; =&gt; User::where(&#x27;is_admin&#x27;, false)-&gt;orderBy(&#x27;name&#x27;)-&gt;paginate(10),
+            &#x27;total&#x27; =&gt; User::where(&#x27;is_admin&#x27;, false)-&gt;count(),
+        ]);
+    }
+
+    public function create(): View
+    {
+        return view(&#x27;interessados.create&#x27;);
+    }
+
+    public function store(InterestedAccountRequest $request): RedirectResponse
+    {
+        $interessado = User::create($request-&gt;validated());
+
+        return redirect()-&gt;route(&#x27;admin.interessados.show&#x27;, $interessado)-&gt;with(&#x27;success&#x27;, &#x27;Interessado cadastrado com sucesso.&#x27;);
+    }
+
+    public function show(User $interessado): View
+    {
+        abort_if($interessado-&gt;is_admin, 404);
+
+        return view(&#x27;interessados.show&#x27;, compact(&#x27;interessado&#x27;));
+    }
+
+    public function edit(User $interessado): View
+    {
+        abort_if($interessado-&gt;is_admin, 404);
+
+        return view(&#x27;interessados.edit&#x27;, compact(&#x27;interessado&#x27;));
+    }
+
+    public function update(InterestedAccountRequest $request, User $interessado): RedirectResponse
+    {
+        abort_if($interessado-&gt;is_admin, 404);
+        $data = $request-&gt;validated();
+
+        if (empty($data[&#x27;password&#x27;])) {
+            unset($data[&#x27;password&#x27;]);
+        }
+
+        $interessado-&gt;update($data);
+
+        return redirect()-&gt;route(&#x27;admin.interessados.show&#x27;, $interessado)-&gt;with(&#x27;success&#x27;, &#x27;Interessado atualizado com sucesso.&#x27;);
+    }
+
+    public function destroy(User $interessado): RedirectResponse
+    {
+        abort_if($interessado-&gt;is_admin, 404);
+        $interessado-&gt;delete();
+
+        return redirect()-&gt;route(&#x27;admin.interessados.index&#x27;)-&gt;with(&#x27;success&#x27;, &#x27;Interessado excluído com sucesso.&#x27;);
+    }
+}
+</pre></section><section id="tests"><small>05 / Validação</small><h2>Testes automatizados</h2><p>Saída real de <code>php artisan test --no-ansi</code>. O banco dos testes é SQLite em memória, separado do banco de demonstração.</p><pre>
+   PASS  Tests\Unit\ExampleTest
+  ✓ that true is true                                                                                            0.01s  
+
+   PASS  Tests\Feature\AccountSecurityTest
+  ✓ public registration saves interest but cannot grant admin access                                             0.36s  
+  ✓ public registration requires a valid interest type                                                           0.03s  
+  ✓ profile update changes only the authenticated account                                                        0.05s  
+  ✓ profile update rejects duplicate email and invalid interest                                                  0.02s  
+  ✓ admin cannot delete their account through profile                                                            0.04s  
+  ✓ guests cannot access the dashboard or profile                                                                0.02s  
+
+   PASS  Tests\Feature\Auth\AuthenticationTest
+  ✓ login screen can be rendered                                                                                 0.03s  
+  ✓ users can authenticate using the login screen                                                                0.03s  
+  ✓ users can not authenticate with invalid password                                                             0.24s  
+  ✓ users can logout                                                                                             0.03s  
+
+   PASS  Tests\Feature\Auth\EmailVerificationTest
+  ✓ email verification screen can be rendered                                                                    0.03s  
+  ✓ email can be verified                                                                                        0.03s  
+  ✓ email is not verified with invalid hash                                                                      0.02s  
+
+   PASS  Tests\Feature\Auth\PasswordConfirmationTest
+  ✓ confirm password screen can be rendered                                                                      0.03s  
+  ✓ password can be confirmed                                                                                    0.02s  
+  ✓ password is not confirmed with invalid password                                                              0.23s  
+
+   PASS  Tests\Feature\Auth\PasswordResetTest
+  ✓ reset password link screen can be rendered                                                                   0.03s  
+  ✓ reset password link can be requested                                                                         0.24s  
+  ✓ reset password screen can be rendered                                                                        0.25s  
+  ✓ password can be reset with valid token                                                                       0.24s  
+
+   PASS  Tests\Feature\Auth\PasswordUpdateTest
+  ✓ password can be updated                                                                                      0.03s  
+  ✓ correct password must be provided to update password                                                         0.02s  
+
+   PASS  Tests\Feature\Auth\RegistrationTest
+  ✓ registration screen can be rendered                                                                          0.02s  
+  ✓ new users can register                                                                                       0.02s  
+
+   PASS  Tests\Feature\ExampleTest
+  ✓ the application returns a successful response                                                                0.02s  
+
+   PASS  Tests\Feature\InterestedAccountTest
+  ✓ admin can create read update and delete an interested account                                                0.06s  
+  ✓ admin can change an interested accounts password                                                             0.02s  
+  ✓ guest cannot access any admin crud action                                                                    0.02s  
+  ✓ interested user cannot access any admin crud action                                                          0.04s  
+  ✓ administrators are excluded from the interested crud                                                         0.04s  
+  ✓ invalid create does not write to the database                                                                0.03s  
+  ✓ duplicate email cannot overwrite an existing account                                                         0.02s  
+  ✓ nonexistent interested account returns 404                                                                   0.02s  
+
+   PASS  Tests\Feature\ProfileTest
+  ✓ profile page is displayed                                                                                    0.07s  
+  ✓ profile information can be updated                                                                           0.03s  
+  ✓ email verification status is unchanged when the email address is unchanged                                   0.02s  
+  ✓ user can delete their account                                                                                0.02s  
+  ✓ correct password must be provided to delete account                                                          0.03s  
+
+   PASS  Tests\Feature\SilentVoiceSiteTest
+  ✓ home and dashboard present the project content                                                               0.03s  
+  ✓ home does not disclose interested accounts                                                                   0.02s  
+  ✓ unknown route returns a useful custom 404                                                                    0.02s  
+  ✓ seeder creates ten interested accounts and one admin without duplicates                                      0.05s  
+
+  Tests:    43 passed (170 assertions)
+  Duration: 2.99s
+
+</pre></section></main></body></html>

@@ -1,0 +1,34 @@
+CREATE — conta inserida
+{
+    "id": 13,
+    "name": "Demonstração Backend",
+    "email": "demo.af3cb2f5-97a9-42dd-8c3b-e6085de09586@example.test",
+    "interest_type": "usuario"
+}
+
+READ — conta consultada no banco
+{
+    "id": 13,
+    "name": "Demonstração Backend",
+    "interest_type": "usuario"
+}
+
+UPDATE — dados relidos após atualização
+{
+    "id": 13,
+    "name": "Demonstração Backend Atualizada",
+    "interest_type": "investidor"
+}
+
+DELETE — ausência confirmada no banco
+{
+    "id": 13,
+    "existe_no_banco": false
+}
+
+CONFERÊNCIA — contas originais preservadas
+{
+    "antes": 11,
+    "depois": 11
+}
+

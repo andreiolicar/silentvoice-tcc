@@ -1,0 +1,2 @@
+@extends('layouts.public')
+@section('content')<section class="page-shell py-24 text-center"><p class="text-7xl font-medium tracking-tight text-brand-700">404</p><h1 class="mt-6 text-3xl font-semibold">Esta página não foi encontrada.</h1><p class="mt-4 text-slate-500">O endereço pode ter mudado. Vamos retomar a conversa?</p><a class="btn-primary mt-8" href="{{ route('home') }}">Voltar ao início</a></section>@endsection

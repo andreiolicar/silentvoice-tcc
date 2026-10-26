@@ -26,6 +26,9 @@ class ProfileUpdateRequest extends FormRequest
                 'max:255',
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
+            'interest_type' => $this->user()->is_admin
+                ? ['exclude']
+                : ['required', Rule::in(array_keys(User::INTEREST_TYPES))],
         ];
     }
 }

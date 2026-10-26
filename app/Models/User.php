@@ -9,6 +9,12 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
+    public const INTEREST_TYPES = [
+        'usuario' => 'Possível usuário',
+        'investidor' => 'Investidor',
+        'outro' => 'Outro',
+    ];
+
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
@@ -21,6 +27,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'interest_type',
     ];
 
     /**
@@ -43,6 +50,12 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_admin' => 'boolean',
         ];
+    }
+
+    public function interestLabel(): string
+    {
+        return self::INTEREST_TYPES[$this->interest_type] ?? 'Administrador';
     }
 }
